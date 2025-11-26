@@ -1,0 +1,7 @@
+{
+  "url": "http://localhost:3000/api/tonconnect",
+  "name": "Starnet Gamification",
+  "iconUrl": "http://localhost:3000/icon.png",
+  "termsOfUseUrl": "<terms-of-use-url>",
+  "privacyPolicyUrl": "<privacy-policy-url>"
+}
