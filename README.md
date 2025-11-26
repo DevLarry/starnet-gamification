@@ -1,98 +1,253 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Starnet Gamification Platform - Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A comprehensive gamification platform built with NestJS/Express that rewards users for completing tasks, maintaining daily streaks, and connecting their TON wallets.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Quick Start
 
-## Description
+### Prerequisites
+- Node.js (v18 or higher)
+- MongoDB (v5.0 or higher)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+### Installation
 
 ```bash
-$ npm install
+# Clone the repository
+git clone <repository-url>
+cd starnet-gamification-backend
+
+# Install dependencies
+npm install
+
+# setup the client
+cd client && npm install
+npm run build
+cd ..
+
+# Setup environment
+cp .env.example .env
+# Edit .env with your configuration
+
+# Start development server
+npm run start:dev
 ```
 
-## Compile and run the project
+### Environment Configuration
+
+```env
+# Database
+DATABASE_URL=
+
+CORS_ORIGIN=
+JWT_SECRET=
+
+# SMTP Configuration
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASSWORD=
+SMTP_FROM=
+
+CORS_ORIGIN="*"
+
+TON_API_URL=
+```
+
+## 📁 Project Structure
+
+```
+src/
+├── auth/                 # Authentication module
+│   ├── controllers/
+│   ├── services/
+│   ├── strategies/
+│   ├── guards/
+│   └── dto/
+├── users/               # User management
+│   ├── schemas/
+│   ├── services/
+│   └── controllers/
+├── tasks/               # Task management
+│   ├── schemas/
+│   ├── services/
+│   └── controllers/
+├── streaks/             # Streak system
+│   ├── services/
+│   └── controllers/
+├── wallet/              # TON wallet integration
+│   ├── services/
+│   └── controllers/
+├── common/              # Shared utilities
+│   ├── filters/
+│   ├── interceptors/
+│   └── decorators/
+└── main.ts              # Application entry point
+```
+
+## 🔑 API Endpoints
+`API full documentation can be found at /doc of the app`
+
+### Authentication
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/api/auth/register` | User registration | ❌ |
+| POST | `/api/auth` | User login | ❌ |
+| GET | `/api/auth/confirm-email` | Confirm email with OTP | ❌ |
+| GET | `/api/auth/resend-confirmation-email` | Resend verification | ❌ |
+| GET | `/api/auth/forgot-password` | Password reset initiation | ❌ |
+| POST | `/api/auth/reset-password` | Password reset completion | ❌ |
+| GET | `/api/auth/profile` | Get user profile | ✅ |
+| GET | `/api/auth/logout` | User logout | ✅ |
+| GET | `/api/auth/check-in` | Daily streak check-in | ✅ |
+
+### Task Management
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/task/daily` | Get daily tasks | ✅ |
+| POST | `/api/task` | Create new task | ✅ |
+| GET | `/api/task` | Get all tasks | ✅ |
+| GET | `/api/task/{id}` | Get task by ID | ✅ |
+| PATCH | `/api/task/{id}` | Update task | ✅ |
+| DELETE | `/api/task/{id}` | Delete task | ✅ |
+| POST | `/api/task/{id}/complete` | Complete task | ✅ |
+
+### Wallet Integration
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/api/wallet` | Connect TON wallet | ✅ |
+
+
+## ⚡ Key Features
+
+### Authentication System
+- JWT-based authentication with refresh tokens
+- Email verification with OTP
+- Secure password reset flow
+
+### Gamification Engine
+- **Points System**: Dynamic points based on task difficulty
+- **Daily Streaks**: Consecutive day tracking with bonuses
+- **Achievements**: Badges and milestone system
+- **Leaderboards**: Real-time user rankings
+
+### Task Management
+- Daily rotating tasks
+- Task completion tracking
+- Admin task management
+- Points awarding system
+
+### TON Wallet Integration
+- TON Connect SDK integration
+- Secure wallet connection flow
+- Wallet address verification
+- Blockchain transaction support
+
+## 🔄 Data Flows
+
+### User Registration
+1. Client → `POST /api/auth/register`
+2. Server validates & hashes password
+3. Generate OTP and send email
+4. User confirms email
+5. Account activated & JWT issued
+
+### Task Completion
+1. Fetch tasks via `GET /api/task`
+2. User completes task
+3. Client → `POST /api/task/{id}/complete`
+4. Server validates & awards points
+5. Update user profile & leaderboards
+
+### Daily Check-in
+1. User → `GET /api/auth/check-in`
+2. Verify 24-hour window
+3. Increment streak counter
+4. Apply bonus multipliers
+5. Send progress notification
+
+### Wallet Connection
+1. User → `POST /api/wallet`
+2. Generate TON Connect deeplink/QR
+3. Wallet signs connection request
+4. Server verifies & links wallet
+5. Award connection points
+
+## 🛡️ Security
+
+### Authentication
+- JWT tokens with short expiration
+- Role-based access control
+- Input validation with class-validator
+- Rate limiting on auth endpoints
+
+### Data Protection
+- Password hashing with bcrypt (work factor 12)
+- Sensitive data exclusion from responses
+- MongoDB injection prevention
+- XSS protection
+
+## 📊 API Design
+
+## 🚀 Performance
+
+### Database Optimization
+- Indexed fields (email, categories, dates)
+- Aggregation pipelines
+- Connection pooling
+- Query optimization
+
+## 🧪 Development
 
 ```bash
-# development
-$ npm run start
+# Start development
+npm run start:dev
 
-# watch mode
-$ npm run start:dev
+# Build project
+npm run build
 
-# production mode
-$ npm run start:prod
+# Run tests
+npm test
+
+# Run with watch mode
+npm run start:debug
 ```
 
-## Run tests
+## 📝 API Documentation
 
-```bash
-# unit tests
-$ npm run test
+Access Swagger documentation at: `http://localhost:4000/doc`
 
-# e2e tests
-$ npm run test:e2e
+## 🔧 Configuration
 
-# test coverage
-$ npm run test:cov
+### TON Connect Manifest
+Create `public/tonconnect-manifest.json`:
+```json
+{
+  "url": "https://your-app.com",
+  "name": "Starnet Gamification",
+  "iconUrl": "https://your-app.com/icon.png",
+  "termsOfUseUrl": "https://your-app.com/terms",
+  "privacyPolicyUrl": "https://your-app.com/privacy"
+}
 ```
 
-## Deployment
+## 🤝 Contributing
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 📄 License
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+This project is licensed under the MIT License.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🆘 Support
 
-## Resources
+For support, email support@starnet.com or join our Slack channel.
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Built with ❤️ using NestJS, MongoDB, and TON Connect**
