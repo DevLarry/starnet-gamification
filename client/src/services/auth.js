@@ -90,6 +90,13 @@ export const taskService = {
   },
 };
 
+export const walletService = {
+  connectWallet: async (walletAddress) => {
+    const response = await api.post('/wallet', { address: walletAddress });
+    return response.data;
+  },
+}
+
 // Default export for backward compatibility
 export default {
   authService,

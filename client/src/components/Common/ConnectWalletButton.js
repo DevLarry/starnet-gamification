@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   TonConnectButton,
   useTonWallet,
   useTonConnectUI,
 } from '@tonconnect/ui-react';
+import { walletService } from '../../services/auth';
 
 const ConnectWalletButton = () => {
   const wallet = useTonWallet();
   const [tonConnectUI] = useTonConnectUI();
 
+  useEffect(async () => {
+    if (wallet?.account?.address) {
+      const response = await walletService.connectWallet(wallet.account.address);
+      console.log('Wallet connected on backend:', response);
+    }
+  }, [wallet]);
+
   const handleConnect = () => {
     if (!wallet) {
-      // Open connection modal
       tonConnectUI.openModal();
     } else {
       // Wallet is already connected

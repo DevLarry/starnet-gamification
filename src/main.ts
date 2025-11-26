@@ -33,6 +33,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('Home')
     .build();
+  app.use((req, res, next) => {
+    if (req.url.startsWith('/doc') || req.url.startsWith('/api')) next();
+    else res.sendFile(join(__dirname, '..', '/public/index.html'));
+  });
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/doc', app, document);
   await app.listen(process.env.PORT || 3000);

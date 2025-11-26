@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import './UserProfile.css';
+import ConnectWalletButton from '../Common/ConnectWalletButton';
 
 const UserProfile = () => {
   const { user, logout } = useAuth();
@@ -110,6 +111,7 @@ const UserProfile = () => {
                 <button onClick={() => setIsEditing(true)} className="edit-btn">
                   Edit Profile
                 </button>
+                <ConnectWalletButton />
               </>
             )}
           </div>
