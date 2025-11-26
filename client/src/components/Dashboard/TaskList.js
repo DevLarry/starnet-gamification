@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../Common/LoadingSpinner';
 import './TaskList.css';
+import TaskCard from './TaskCard';
 
 const TaskList = () => {
   const { tasks, tasksLoading, completeTask, dailyCheckIn, user } = useAuth();
@@ -22,9 +23,9 @@ const TaskList = () => {
     setCheckInLoading(false);
   };
 
-  const handleCompleteTask = async (task) => {
-    setCompletingTask(task.id);
-    const result = await completeTask(task.id);
+  const handleCompleteTask = async (taskId) => {
+    setCompletingTask(taskId);
+    const result = await completeTask(taskId);
     if (!result.success) {
       alert(result.error || 'Failed to complete task');
     }
@@ -63,10 +64,10 @@ const TaskList = () => {
   };
 
   const getDefaultIcon = (title) => {
-    if (title.toLowerCase().includes('check')) return '📅';
-    if (title.toLowerCase().includes('invite')) return '👥';
-    if (title.toLowerCase().includes('profile')) return '👤';
-    if (title.toLowerCase().includes('social')) return '💬';
+    if (title?.toLowerCase().includes('check')) return '📅';
+    if (title?.toLowerCase().includes('invite')) return '👥';
+    if (title?.toLowerCase().includes('profile')) return '👤';
+    if (title?.toLowerCase().includes('social')) return '💬';
     return '✅';
   };
 
@@ -96,8 +97,8 @@ const TaskList = () => {
 
   const regularTasks = tasks.filter(
     (task) =>
-      !task.title.toLowerCase().includes('check') &&
-      !task.title.toLowerCase().includes('invite'),
+      !task.title?.toLowerCase().includes('check') &&
+      !task.title?.toLowerCase().includes('invite'),
   );
 
   if (tasksLoading) {
@@ -188,35 +189,64 @@ const TaskList = () => {
             {regularTasks.map((task) => {
               const completed = isTaskCompleted(task);
               return (
-                <div
-                  key={task.id}
-                  className={`task-card ${completed ? 'completed' : ''}`}
-                >
+                // <TaskCard key={task.id} task={task} onComplete={handleCompleteTask} completed={completed} />
+                // <div
+                //   key={task.id}
+                //   className={`task-card ${completed ? 'completed' : ''}`}
+                // >
+                //   {getTaskIcon(task)}
+                //   <div className="task-content">
+                //     <h3>{task.title}</h3>
+                //     <p>{task.description}</p>
+                //     <div className="task-meta">
+                //       <span className="task-points">
+                //         +{task.pointValue} points
+                //       </span>
+                //       {task.url && !completed && (
+                //         <a
+                //           href={task.url}
+                //           target="_blank"
+                //           rel="noopener noreferrer"
+                //           className="task-link"
+                //           onClick={(e) => e.stopPropagation()}
+                //         >
+                //           Visit Link
+                //         </a>
+                //       )}
+                //     </div>
+                //   </div>
+                //   <button
+                //     onClick={() => handleCompleteTask(task)}
+                //     disabled={completingTask === task.id || completed}
+                //     className={`task-action ${completed ? 'completed' : ''}`}
+                //   >
+                //     {completingTask === task.id ? (
+                //       <>
+                //         <div className="spinner-small"></div>
+                //         Completing...
+                //       </>
+                //     ) : completed ? (
+                //       '✅ Completed'
+                //     ) : (
+                //       'Complete'
+                //     )}
+                //   </button>
+                // </div>
+                <div className="task-card special">
                   {getTaskIcon(task)}
                   <div className="task-content">
-                    <h3>{task.title}</h3>
-                    <p>{task.description}</p>
+                    <h3>{task?.title}</h3>
+                    <p>{task?.description}</p>
                     <div className="task-meta">
                       <span className="task-points">
                         +{task.pointValue} points
                       </span>
-                      {task.url && !completed && (
-                        <a
-                          href={task.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="task-link"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          Visit Link
-                        </a>
-                      )}
                     </div>
                   </div>
                   <button
                     onClick={() => handleCompleteTask(task)}
                     disabled={completingTask === task.id || completed}
-                    className={`task-action ${completed ? 'completed' : ''}`}
+                    className={`task-action secondary ${completed ? 'completed' : ''}`}
                   >
                     {completingTask === task.id ? (
                       <>

@@ -44,7 +44,7 @@ export class TaskService {
     });
   }
 
-  async getDailyTasks(count: number = 10, page: number = 1) {
+  async getDailyTasks(userId: string, count: number = 10, page: number = 1) {
     const tasks = await this.prismaService.task.findMany({
       where: {
         createdAt: {
@@ -52,6 +52,9 @@ export class TaskService {
           lt: new Date(new Date().setHours(23, 59, 59, 999)),
         },
       },
+      include: {
+        completions: { where: { userId } },
+      }
     });
     return { data: tasks, count, page};
   }

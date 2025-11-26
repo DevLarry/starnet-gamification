@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './TaskCard.css';
 
-const TaskCard = ({ task, onComplete }) => {
+const TaskCard = ({ task, onComplete, completed }) => {
   const [completing, setCompleting] = useState(false);
 
   const handleComplete = async () => {

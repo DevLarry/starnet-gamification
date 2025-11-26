@@ -48,8 +48,9 @@ export class TaskController {
   })
   @ApiBearerAuth()
   @Get('daily')
-  getDailyTasks() {
-    return this.taskService.getDailyTasks();
+  getDailyTasks(@Req() req) {
+    const userId = req.user.id;
+    return this.taskService.getDailyTasks(userId);
   }
 
   @ApiOperation({

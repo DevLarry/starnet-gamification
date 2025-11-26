@@ -30,6 +30,7 @@ export class AuthGuard implements CanActivate {
       // so that we can access it in our route handlers
       const user: any = await this.prismaService.user.findUnique({ where: { id: payload.sub } });
       user.password = ''
+      user.completedTasks = await this.prismaService.completion.count({where: { userId: user.id}});
       request['user'] = user;
     } catch {
       throw new UnauthorizedException();
