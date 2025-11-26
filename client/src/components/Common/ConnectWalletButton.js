@@ -10,9 +10,9 @@ const ConnectWalletButton = () => {
   const wallet = useTonWallet();
   const [tonConnectUI] = useTonConnectUI();
 
-  useEffect(async () => {
+  useEffect(() => {
     if (wallet?.account?.address) {
-      const response = await walletService.connectWallet(wallet.account.address);
+      const response = walletService.connectWallet(wallet.account.address);
       console.log('Wallet connected on backend:', response);
     }
   }, [wallet]);
