@@ -13,7 +13,7 @@ A comprehensive gamification platform built with NestJS/Express that rewards use
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd starnet-gamification-backend
+cd starnet-gamification
 
 # Install dependencies
 npm install
@@ -152,6 +152,7 @@ src/
 3. Generate OTP and send email
 4. User confirms email
 5. Account activated & JWT issued
+6. Login page -> Register
 
 ### Task Completion
 1. Fetch tasks via `GET /api/task`
@@ -166,6 +167,7 @@ src/
 3. Increment streak counter
 4. Apply bonus multipliers
 5. Send progress notification
+6. Dashboard -> Check in
 
 ### Wallet Connection
 1. User → `POST /api/wallet`
@@ -173,6 +175,7 @@ src/
 3. Wallet signs connection request
 4. Server verifies & links wallet
 5. Award connection points
+6. Dashboard -> User Profile -> Connect Wallet
 
 ## 🛡️ Security
 
