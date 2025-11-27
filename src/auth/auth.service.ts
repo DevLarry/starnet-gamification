@@ -47,6 +47,7 @@ export class AuthService {
       .create({
         data: {
           ...user,
+          is_verified: true
         },
       })
       .then(async (account) => {
@@ -81,7 +82,7 @@ export class AuthService {
   }
 
   async signIn(email: string, pass: string): Promise<any> {
-    const user = await this.prismaService.user.findUnique({
+    const user = await this.prismaService.user.findFirst({
       where: { email: email },
     });
 

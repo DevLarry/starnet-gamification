@@ -6,10 +6,9 @@ import './AuthPages.css';
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: '',
     name: '',
-    email: '',
   });
   const { user, login, register, loading } = useAuth();
 
@@ -27,6 +26,8 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
+    
     if (isLogin) {
       await login(formData);
     } else {
@@ -75,41 +76,37 @@ const LoginPage = () => {
               </div>
             )}
 
-            {!isLogin && (
-              <div className="form-group">
-                <label htmlFor="email" className="form-label">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required={!isLogin}
-                  className="form-input"
-                  placeholder="Enter your email"
-                />
-              </div>
-            )}
-
             <div className="form-group">
-              <label htmlFor="username" className="form-label">
-                {isLogin ? 'Email or Username' : 'Username'}
+              <label htmlFor="email" className="form-label">
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required={!isLogin}
+                className="form-input"
+                placeholder="Enter your email"
+              />
+            </div>
+
+            {/* <div className="form-group">
+              <label htmlFor="email" className="form-label">
+                Email
               </label>
               <input
                 type="text"
-                id="username"
-                name="username"
-                value={formData.username}
+                id="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
                 required
                 className="form-input"
-                placeholder={
-                  isLogin ? 'Enter your email or username' : 'Choose a username'
-                }
+                placeholder='Enter your email'
               />
-            </div>
+            </div> */}
 
             <div className="form-group">
               <div className="password-header">
